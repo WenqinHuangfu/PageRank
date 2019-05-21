@@ -102,10 +102,10 @@ class SimplePageRank(object):
             Number_of_Targets = len(targets)
             List_of_Targets = list(targets)
             
-            if Number_of_Targets == 0:
-                List_of_Targets.pop(node)
+            if Number_of_Targets == 0
                 Number_of_Targets = num_nodes - 1
                 List_of_Targets = range(0, num_nodes)
+                List_of_Targets.pop(node)
             
             Random_Follow_Link = 0.85 * weight / Number_of_Targets
             Stay_on_the_Page = (node, 0.05 * weight)
@@ -139,9 +139,11 @@ class SimplePageRank(object):
                     targets = i
                     List_of_Values.remove(i)
             
-            weight = 0.1 # Random go to any page in the graph
-            for iteration in range(0, len(List_of_Values)):
-                weight = weight + List_of_Values[iteration]
+            # weight = 0.1 # Random go to any page in the graph
+            # for iteration in range(0, len(List_of_Values)):
+            #     weight = weight + List_of_Values[iteration]
+            
+            weight = reduce((lambda x,y:x+y), List_of_Values) + 0.1
             
             return (node,(weight,targets))
         
