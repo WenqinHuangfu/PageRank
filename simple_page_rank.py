@@ -105,16 +105,16 @@ class SimplePageRank(object):
             if Number_of_Targets == 0:
                 List_of_Targets.pop(node)
                 Number_of_Targets = num_nodes - 1
-                List_of_Targets = range(0, Number_of_Targets)
+                List_of_Targets = range(0, num_nodes)
             
             Random_Follow_Link = 0.85 * weight / Number_of_Targets
             Stay_on_the_Page = (node, 0.05 * weight)
             
-            Distributed_Scores = list()
-            for iteration in range(0, Number_of_Targets):
-                Distributed_Scores.append(List_of_Targets[iteration], Random_Follow_Link)
+            # Distributed_Scores = list()
+            # for iteration in range(0, len(List_of_Targets)):
+            #    Distributed_Scores.append(List_of_Targets[iteration], Random_Follow_Link)
                 
-            # Distributed_Scores = list(map(lambda x: (x, Random_Follow_Link), List_of_Targets))
+            Distributed_Scores = list(map(lambda x: (x, Random_Follow_Link), List_of_Targets))
             Distributed_Scores.append(Stay_on_the_Page)
             Distributed_Scores.append((node, targets))
             
@@ -133,11 +133,11 @@ class SimplePageRank(object):
         def collect_weights((node, values)):
             # YOUR CODE HERE
             List_of_Values = list(values)
+            
             for i in List_of_Values:
                 if type(i) is frozenset:
                     targets = i
-                    values_list.remove(i)
-            # print values
+                    List_of_Values.remove(i)
             
             weight = 0.1 # Random go to any page in the graph
             for iteration in range(0, len(List_of_Values)):
