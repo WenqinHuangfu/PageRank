@@ -99,18 +99,26 @@ class SimplePageRank(object):
         """
         def distribute_weights((node, (weight, targets))):
             # YOUR CODE HERE
-            target_num = len(targets)
-            target_list = list(targets)
-            if target_num == 0:
-                target_num = num_nodes - 1
-                target_list = range(0,num_nodes)
-                target_list.pop(node)
-            follow_link_score = 0.85*weight/target_num
-            stayon = (node, 0.05*weight)
-            vote_tuples = list(map(lambda x: (x,follow_link_score), target_list))
-            vote_tuples.append(stayon)
-            vote_tuples.append((node,targets))
-            return vote_tuples    
+            Number_of_Targets = len(targets)
+            List_of_Targets = list(targets)
+            
+            if Number_of_Targets == 0:
+                List_of_Targets.pop(node)
+                Number_of_Targets = num_nodes - 1
+                List_of_Targets = range(0, Number_of_Targets)
+            
+            Random_Follow_Link = 0.85 * weight / Number_of_Targets
+            Stay_on_the_Page = (node, 0.05 * weight)
+            
+            Distributed_Scores = list()
+            for iteration in range(0, Number_of_Targets):
+                Distributed_Scores.append(List_of_Targets[iteration], Random_Follow_Link)
+                
+            # Distributed_Scores = list(map(lambda x: (x, Random_Follow_Link), List_of_Targets))
+            Distributed_Scores.append(Stay_on_the_Page)
+            Distributed_Scores.append((node, targets))
+            
+            return Distributed_Scores    
 
         """
         Reducer phase.
@@ -124,14 +132,17 @@ class SimplePageRank(object):
         """
         def collect_weights((node, values)):
             # YOUR CODE HERE
-            values_list = list(values)
-            for i in values_list:
+            List_of_Values = list(values)
+            for i in List_of_Values:
                 if type(i) is frozenset:
                     targets = i
                     values_list.remove(i)
             # print values
-            weight = reduce((lambda x,y:x+y),values_list) + 0.1
-            # print (node,(weight,targets))
+            
+            weight = 0.1 # Random go to any page in the graph
+            for iteration in range(0, len(List_of_Values)):
+                weight = weight + List_of_Values[iteration]
+            
             return (node,(weight,targets))
         
         return nodes\
