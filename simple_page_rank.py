@@ -102,19 +102,23 @@ class SimplePageRank(object):
             Number_of_Targets = len(targets)
             List_of_Targets = list(targets)
             
+            # Deal with situation of current node has no connections with others
             if Number_of_Targets == 0:
                 Number_of_Targets = num_nodes - 1
                 List_of_Targets = range(0, num_nodes)
                 List_of_Targets.pop(node)
             
-            Random_Follow_Link = 0.85 * weight / Number_of_Targets
-            Stay_on_the_Page = (node, 0.05 * weight)
-            
+            # Scores of randomly following link
+            Randomly_Follow_Link = 0.85 * weight / Number_of_Targets
             Distributed_Scores = list()
             for iteration in range(0, len(List_of_Targets)):
-               Distributed_Scores.append((List_of_Targets[iteration], Random_Follow_Link))
+               Distributed_Scores.append((List_of_Targets[iteration], Randomly_Follow_Link))
             
-            Distributed_Scores.append(Stay_on_the_Page)
+            # Scores of staying on the same page
+            Stay_on_the_Same_Page = (node, 0.05 * weight)
+            Distributed_Scores.append(Stay_on_the_Same_Page)
+            
+            # Connection information
             Distributed_Scores.append((node, targets))
             
             return Distributed_Scores    
@@ -133,17 +137,16 @@ class SimplePageRank(object):
             # YOUR CODE HERE
             List_of_Values = list(values)
             
-            #for iteration in range(0, len(List_of_Values)):
-            #    if type(List_of_Values[iteration]) is frozenset:
-            #        targets = List_of_Values[iteration]
-            #        List_of_Values.remove(iteration)
-                    
+            # Connections
             for i in List_of_Values:
                 if type(i) is frozenset:
                     targets = i
                     List_of_Values.remove(i)
             
-            weight = 0.1 # Random go to any page in the graph
+            # Scores from randomly go to any page in the graph
+            weight = 0.1
+            
+            # Scores collected from other pages
             for iteration in range(0, len(List_of_Values)):
                 weight = weight + List_of_Values[iteration]
             
