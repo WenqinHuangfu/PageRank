@@ -112,7 +112,7 @@ class SimplePageRank(object):
             
             Distributed_Scores = list()
             for iteration in range(0, len(List_of_Targets)):
-               Distributed_Scores.append(List_of_Targets[iteration], Random_Follow_Link)
+               Distributed_Scores.append((List_of_Targets[iteration], Random_Follow_Link))
             
             Distributed_Scores.append(Stay_on_the_Page)
             Distributed_Scores.append((node, targets))
@@ -133,10 +133,15 @@ class SimplePageRank(object):
             # YOUR CODE HERE
             List_of_Values = list(values)
             
-            for iteration in range(0, len(List_of_Values)):
-                if type(List_of_Values[iteration]) is frozenset:
-                    targets = List_of_Values[iteration]
-                    List_of_Values.remove(iteration)
+            #for iteration in range(0, len(List_of_Values)):
+            #    if type(List_of_Values[iteration]) is frozenset:
+            #        targets = List_of_Values[iteration]
+            #        List_of_Values.remove(iteration)
+                    
+            for i in List_of_Values:
+                if type(i) is frozenset:
+                    targets = i
+                    List_of_Values.remove(i)
             
             weight = 0.1 # Random go to any page in the graph
             for iteration in range(0, len(List_of_Values)):
