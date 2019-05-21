@@ -133,7 +133,7 @@ class SimplePageRank(object):
             # YOUR CODE HERE
             List_of_Values = list(values)
             
-            for iteration in len(List_of_Values):
+            for iteration in range(0, len(List_of_Values)):
                 if type(List_of_Values[iteration]) is frozenset:
                     targets = iteration
                     List_of_Values.remove(iteration)
