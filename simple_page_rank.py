@@ -135,7 +135,7 @@ class SimplePageRank(object):
             
             for iteration in range(0, len(List_of_Values)):
                 if type(List_of_Values[iteration]) is frozenset:
-                    targets = iteration
+                    targets = List_of_Values[iteration]
                     List_of_Values.remove(iteration)
             
             weight = 0.1 # Random go to any page in the graph
